@@ -169,12 +169,13 @@ public abstract class TestCase extends Assert implements Test {
         } catch (NoSuchMethodException e) {
             fail("Method \"" + fName + "\" not found");
         }
-        if (!Modifier.isPublic(runMethod.getModifiers())) {
+        if (runMethod != null && !Modifier.isPublic(runMethod.getModifiers())) {
             fail("Method \"" + fName + "\" should be public");
         }
 
         try {
-            runMethod.invoke(this);
+            if(runMethod != null)
+                runMethod.invoke(this);
         } catch (InvocationTargetException e) {
             e.fillInStackTrace();
             throw e.getTargetException();
